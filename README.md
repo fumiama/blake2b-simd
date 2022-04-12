@@ -10,6 +10,11 @@ This package was initially based on the pure go [BLAKE2b](https://github.com/dch
 
 In addition to AVX there is also support for AVX2 as well as SSE. Best performance is obtained with AVX2 which gives roughly a **4X** performance increase approaching hashing speeds of **1GB/sec** on a single core.
 
+There is also a commandline tool for blake2b, see `main` folder for more details.
+```bash
+go run main/main.go
+```
+
 Benchmarks
 ----------
 

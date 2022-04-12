@@ -135,8 +135,8 @@ func (d *digest) initialize(c *Config) {
 	if c.Tree != nil {
 		p[2] = c.Tree.Fanout
 		p[3] = c.Tree.MaxDepth
-		binary.LittleEndian.PutUint32(p[4:], c.Tree.LeafSize)
-		binary.LittleEndian.PutUint64(p[8:], c.Tree.NodeOffset)
+		binary.LittleEndian.PutUint32(p[4:8], c.Tree.LeafSize)
+		binary.LittleEndian.PutUint64(p[8:16], c.Tree.NodeOffset)
 		p[16] = c.Tree.NodeDepth
 		p[17] = c.Tree.InnerHashSize
 	} else {
@@ -147,7 +147,7 @@ func (d *digest) initialize(c *Config) {
 	// Initialize.
 	d.size = c.Size
 	for i := 0; i < 8; i++ {
-		d.h[i] = iv[i] ^ binary.LittleEndian.Uint64(p[i*8:])
+		d.h[i] = iv[i] ^ binary.LittleEndian.Uint64(p[i*8:(i+1)*8])
 	}
 	if c.Tree != nil && c.Tree.IsLastNode {
 		d.isLastNode = true
@@ -156,7 +156,7 @@ func (d *digest) initialize(c *Config) {
 	// Process key.
 	if c.Key != nil {
 		copy(d.paddedKey[:], c.Key)
-		d.Write(d.paddedKey[:])
+		d.Write(c.Key)
 		d.isKeyed = true
 	}
 	// Save a copy of initialized state.
