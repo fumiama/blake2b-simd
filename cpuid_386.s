@@ -1,6 +1,7 @@
-// Copyright (c) 2015 Klaus Post, released under MIT License. See LICENSE file.
-
+//go:build 386 && !gccgo
 // +build 386,!gccgo
+
+// Copyright (c) 2015 Klaus Post, released under MIT License. See LICENSE file.
 
 // func cpuid(op uint32) (eax, ebx, ecx, edx uint32)
 TEXT ·cpuid(SB), 7, $0

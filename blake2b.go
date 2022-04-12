@@ -269,14 +269,7 @@ func (d *digest) checkSum() [Size]byte {
 	var out [Size]byte
 	j := 0
 	for _, s := range d.h[:(d.size-1)/8+1] {
-		out[j+0] = byte(s >> 0)
-		out[j+1] = byte(s >> 8)
-		out[j+2] = byte(s >> 16)
-		out[j+3] = byte(s >> 24)
-		out[j+4] = byte(s >> 32)
-		out[j+5] = byte(s >> 40)
-		out[j+6] = byte(s >> 48)
-		out[j+7] = byte(s >> 56)
+		binary.LittleEndian.PutUint64(out[j:j+8], s)
 		j += 8
 	}
 	return out

@@ -7,6 +7,8 @@
 
 package blake2b
 
+import "encoding/binary"
+
 func compressGeneric(d *digest, p []uint8) {
 	h0, h1, h2, h3, h4, h5, h6, h7 := d.h[0], d.h[1], d.h[2], d.h[3], d.h[4], d.h[5], d.h[6], d.h[7]
 
@@ -30,9 +32,7 @@ func compressGeneric(d *digest, p []uint8) {
 		j := 0
 		var m [16]uint64
 		for i := range m {
-			m[i] = uint64(p[j]) | uint64(p[j+1])<<8 | uint64(p[j+2])<<16 |
-				uint64(p[j+3])<<24 | uint64(p[j+4])<<32 | uint64(p[j+5])<<40 |
-				uint64(p[j+6])<<48 | uint64(p[j+7])<<56
+			m[i] = binary.LittleEndian.Uint64(p[j : j+8])
 			j += 8
 		}
 
